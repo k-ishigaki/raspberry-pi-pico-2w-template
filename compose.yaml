@@ -64,6 +64,14 @@ services:
       cp -f /usr/bin/docker /tmp/shared_bin/docker &&
       sleep infinity'
 
+  main:
+    build:
+      context: .
+      args:
+        BASE_IMAGE: "ghcr.io/k-ishigaki/rust-docker:1"
+        <<: *common-args
+    <<: *common-options
+
   tmux:
     build:
       context: .

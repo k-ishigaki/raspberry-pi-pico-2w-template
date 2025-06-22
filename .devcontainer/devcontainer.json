@@ -9,7 +9,7 @@
 
     // The 'service' property is the name of the service for the container that VS Code should
     // use.
-    "service": "neovim",
+    "service": "main",
 
     // The optional 'workspaceFolder' property is the path VS Code should open by default when
     // connected.
@@ -30,6 +30,7 @@
             },
             "extensions": [
                 "atsushieno.language-review",
+                "Continue.continue",
                 "eamodio.gitlens",
                 "ms-azuretools.vscode-docker",
                 "exiasr.hadolint"
