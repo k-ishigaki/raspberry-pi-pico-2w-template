@@ -1,9 +1,12 @@
 volumes:
   tmp:
+  vscode:
+  vscode-server:
 
 x-common-options: &common-options
   user: ${USER_ID}:${GROUP_ID}
   environment:
+    OPENAI_API_KEY: ${OPENAI_API_KEY}
     PREPARE_COMMAND: |
       # fix permissions
       sudo chown `id -u`:`id -g` /root/.vscode-server/bin
@@ -16,6 +19,7 @@ x-common-options: &common-options
 
       # prepare commands
       container_commands='
+        codex@codex
         docker@docker
         nvim@neovim
         tmux@tmux
@@ -40,9 +44,12 @@ x-common-options: &common-options
         sudo chmod +x /usr/local/bin/$$command_name
       done
   volumes:
+    - ./.codex:/root/.codex
     - "/var/run/docker.sock:/var/run/docker.sock"
     - ./:/app
     - tmp:/tmp
+    - vscode:/vscode
+    - vscode-server:/root/.vscode-server
   working_dir: /app
   command: sh -cex 'eval "$${PREPARE_COMMAND}" && sleep infinity'
 
@@ -104,4 +111,10 @@ services:
         <<: *common-args
     <<: *common-options
 
-
+  codex:
+    build:
+      context: .
+      args:
+        BASE_IMAGE: "ghcr.io/k-ishigaki/codex-docker:1"
+        <<: *common-args
+    <<: *common-options
