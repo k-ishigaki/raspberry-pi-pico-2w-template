@@ -1,0 +1,31 @@
+model_provider = "litellm"
+
+sandbox_mode = "workspace-write"
+approval_policy = "never"
+
+[sandbox_workspace_write]
+writable_roots = ["/tmp"]
+network_access = true
+
+[model_providers.litellm]
+name = "LiteLLM"
+base_url = "http://host.docker.internal:4000"
+env_key = "OPENAI_API_KEY"
+wire_api = "responses"
+
+[mcp_servers.o4-mini-search-mcp]
+command = "npx"
+args = [
+  "-y",
+  "o4-mini-search-mcp@latest"
+]
+env = { "OPENAI_API_KEY" = "sk-1234", "OPENAI_API_BASE" = "http://host.docker.internal:4000" }
+
+[mcp_servers.mcp-server-fetch]
+command = "uvx"
+args = [
+  "mcp-server-fetch"
+]
+
+[tui]
+disable_mouse_capture = true

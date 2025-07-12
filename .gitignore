@@ -1,1 +1,4 @@
 .env
+.codex/*
+!.codex/config.toml
+!.codex/instructions.md
